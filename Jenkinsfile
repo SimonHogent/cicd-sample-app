@@ -8,6 +8,7 @@ pipeline {
             steps {
                 sh 'docker compose down || true'
                 sh 'docker compose up -d --build'
+                sh 'sleep 20'
                 sh 'docker exec -i todoappdb mariadb -utodo_usr -pletmeinplz todo_db < TodoApp/schema.sql'
             }
         }
@@ -25,6 +26,7 @@ pipeline {
                         export BIND_ADDR=127.0.0.1
                         docker compose down || true
                         docker compose up -d --build
+                        sleep 20
                         docker exec -i todoappdb mariadb -utodo_usr -pletmeinplz todo_db < TodoApp/schema.sql
                     '''
                 }
