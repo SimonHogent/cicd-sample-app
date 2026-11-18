@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        booleanParam(name: 'AUTO_APPROVE', defaultValue: true, description: 'Skip the manual approval before production')
+    }
     stages {
         stage('Staging') {
             steps {
@@ -18,6 +21,7 @@ pipeline {
             }
         }
         stage('Approve production') {
+            when { expression { params.AUTO_APPROVE == false } }
             steps {
                 input message: 'Deploy to production (dmz010)?'
             }
